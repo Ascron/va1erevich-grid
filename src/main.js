@@ -14,7 +14,7 @@ let gameField = await response.json();
     resizeTo: window
   });
 
-  // Add viewport
+  // Вьюпорт для перетаскивания, зума и тп
   const viewport = new Viewport({
     screenWidth: window.innerWidth,
     screenHeight: window.innerHeight,
@@ -37,21 +37,18 @@ let gameField = await response.json();
   // отступ между гексами
   const SPACING  = 0;
 
-  const texture = await PIXI.Assets.load('/hex.png'); // <-- ваш PNG
+  const texture = await PIXI.Assets.load('/hex.png');
 
+  // Масштаб гекса (0.5 = 50% от оригинала)
   const scale = 0.5;
-  console.log(scale);
 
   // Расстояния центров для pointy-top
   const horizontalOffset = HEX_WIDTH * scale + SPACING;
   const verticalOffset  = HEX_HEIGHT * scale * 0.75 + SPACING; // один ряд занимает 0.75 высоты гекса
-  console.log('horizontal offset', horizontalOffset);
-  console.log('vertical offset', verticalOffset);
 
-  console.log(gameField);
   gameField.forEach(cell => {
     const {x, y, tint} = cell;
-    const xOffset = x * horizontalOffset + (y % 2 ? horizontalOffset / 2 : 0); // каждый второй ряд смещен на половину
+    const xOffset = x * horizontalOffset + (y % 2 ? horizontalOffset / 2 : 0); // каждый второй ряд смещен на половину по горизонтали
     const yOffset = y * verticalOffset;
 
     const hex = new PIXI.Sprite(texture);
@@ -65,28 +62,23 @@ let gameField = await response.json();
 
     hex.x = xOffset + MARGIN;
     hex.y = yOffset + MARGIN;
-    hex.anchor.set(0.5); // центрируем по координатам
-    console.log('x',hex.x);
-    console.log('y',hex.y);
+    hex.anchor.set(0.5); // размещаем гексы от их центра (не обязательно, можно и от угла)
 
     hex.eventMode = 'static';
     hex.cursor = 'pointer';
 
-    // пример: при клике меняем оттенок
+    // возвращаем координаты гекса при клике
     hex.on('pointerdown', () => {
-      console.log(`clicked y= ${y}, x= ${x}`);
-      hex.tint = 0xff7777; // можно сбросить hex.tint = 0xFFFFFF;
+      console.log(`clicked x= ${x}, y= ${y}`);
+      alert(`clicked x= ${x}, y= ${y}`);
+      hex.tint = 0xff7777;
     });
 
-    // Change to viewport
     viewport.addChild(hex);
   });
 
-  // After the loop, fit and center
   viewport.fit();
   viewport.moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
-
-  // Handle resize
   window.addEventListener('resize', () => {
     viewport.resize(window.innerWidth, window.innerHeight);
     viewport.fit();
