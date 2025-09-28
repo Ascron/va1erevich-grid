@@ -70,7 +70,6 @@ let gameField = await response.json();
     // возвращаем координаты гекса при клике
     hex.on('pointerdown', () => {
       console.log(`clicked x= ${x}, y= ${y}`);
-      alert(`clicked x= ${x}, y= ${y}`);
       hex.tint = 0xff7777;
     });
 
