@@ -1,0 +1,23 @@
+{
+  "name": "streakersni",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["pixi", "game", "hex", "grid"],
+  "author": "",
+  "license": "ISC",
+  "description": "Hex grid game with PixiJS and viewport",
+  "dependencies": {
+    "pixi-viewport": "^6.0.3",
+    "pixi.js": "^8.13.2"
+  },
+  "devDependencies": {
+    "vite": "^6.3.6"
+  }
+}
